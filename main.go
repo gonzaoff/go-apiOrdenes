@@ -2,37 +2,34 @@ package main
 
 import (
 	"fmt"
-	"net/http"
 
-	"github.com/go-chi/chi/v5"
-	"github.com/go-chi/chi/v5/middleware"
+	// Vamos a importar la libreria context y el directorio donde se encuentran nuestras funciones
+
+	"context"
+	"github.com/gonzaoff/go-apiOrdenes/aplicacion"
 )
+
+
+
+
+// Vamos a limpiar el codigo 
 
 func main() {
 
-	router := chi.NewRouter()
-	router.Use(middleware.Logger)
+	// Vamos a hacer una nueva aplicacion basandonos en las funciones realizadas.
 
-
-	router.Get("/hola", basicHandler)
-
-
-	server := &http.Server{
-		Addr: ":3000",
-		Handler: router,
-	}
+	app := aplicacion.New()
 	
-	fmt.Println("Servidor: online.\nHost: http://localhost:3000")
+	fmt.Println("Iniciando servidor en: http://localhost:3000.")
+	err := app.Start(context.TODO())
 
-	err := server.ListenAndServe()
+
 	if err != nil {
-		fmt.Println("Fallo el servidor", err)
+		fmt.Println("Fallo al iniciar la app: ", err)
 	}
 
-	
 }
 
-func basicHandler(w http.ResponseWriter, r *http.Request){
-	w.Write([]byte("Hola Mundo!"))
-}
+// Es el turno de los handlers (manipuladores de solicitud)
 
+// De esa manera introdujimos(?) los terminos que se usan para manejar solicitudes, mañana se viene lo interesante... Redis
